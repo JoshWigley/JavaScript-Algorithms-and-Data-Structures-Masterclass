@@ -1,0 +1,43 @@
+//Task: Take 2 strings and detect whether or not they're a valid anagram. Words must have the exact same count, and not just contain the same letters
+
+//Work List:
+// Create function to place the characters of the string into an object
+// Add a Key-Value pair if key doesn't exist in the object and set value to 1
+// IF key exists, add 1 to the existing value
+// Iterate through the object and check to see whether the words are legitimate anagrams
+// Return bool value to console
+
+
+function validAnagram(wordOne, wordTwo) {
+
+  if (wordOne.length !== wordTwo.length) {
+    return false;
+  }
+  var wordObj = {};
+  wordObj = wordChars(wordObj, wordOne.toLowerCase())
+  wordObj = wordChars(wordObj, wordTwo.toLowerCase())
+  return checkAnagram(wordObj);
+}
+
+function checkAnagram(object)
+{
+  for (var key in object) {
+    if (object[key] % 2 !== 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function wordChars(obj, word) {
+  for (var key in word) {
+    var char = word.charAt(key);
+    if (!obj[char]) {
+      obj[char] = 1;
+    }
+    else {
+      obj[char] = obj[char] + 1;
+    }
+  }
+  return obj;
+}
