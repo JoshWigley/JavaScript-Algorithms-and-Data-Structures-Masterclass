@@ -1,4 +1,5 @@
-//Task: Take 2 strings and detect whether or not they're a valid anagram. Words must have the exact same count, and not just contain the same letters
+//Task: Take 2 strings and detect whether or not they're a valid anagram. Words must have the exact same count, and not just contain the same letters. 
+//Time Complexity = O(n)
 
 //Work List:
 // Create function to place the characters of the string into an object
