@@ -1,0 +1,30 @@
+/*
+
+//Task 4 - Take any number of arguments and detect whether said arguments
+// contain duplicates or not.
+// Time Complexity - O(n)
+// Space Complexity - O(n)
+
+//WorkList
+  // Create logic that accepts variable amount of arguments
+  // For each argument add value to an object
+  // If object value is higher than 1 return true
+  // If no object value over 1 return false
+*/
+
+function areThereDuplicates()
+{
+  var argObj = {};
+  for(var i = 0; i < arguments.length; i++)
+  {
+    if (!argObj[arguments[i]])
+    {
+      argObj[arguments[i]] = 1 ;
+    }
+    else
+    {
+      return true;
+    }
+  }
+  return false;
+}
