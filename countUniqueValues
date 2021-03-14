@@ -1,0 +1,32 @@
+/*
+// Task 2: Implement a function which counts all the unique values in an
+// array. The array is ALWAYS sorted. Task must be solved with multiple pointers
+// Time Complexity = O(n)
+// Space Complexity = O(n)
+
+//Work List
+  // Create 2 pointers which will iterate through the array
+     // 1 pointer keeps count of the unique value
+    // 1 pointer iterates through the array to compare values
+  // Create logic to compare pointer values
+  // if head value is less than tail, record difference, and then increment the variables by 1 to move up the array.
+  //If array is empty return 0
+  //Return unique count (Not forgetting to + 1 to the result due to 0 based index)
+*/
+function countUniqueValues(uniqueArray)
+{
+  var head = 0;
+  var tail = 0;
+  if(uniqueArray.length <= 0)
+  {
+    return 0; 
+    }
+  for (tail; tail < uniqueArray.length; tail++)
+    {    
+        if(uniqueArray[head] < uniqueArray[tail])
+        {
+          uniqueArray[++head] = uniqueArray[tail]
+        }
+    }
+    return ++head;
+}
