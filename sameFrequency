@@ -1,0 +1,60 @@
+/*
+
+//Task 3 - Take 2 numbers and compare whether they contain the same digits
+// Time Complexity = O(n)
+
+//WorkList
+  // Check length of values if they differ return false
+  // Seperate and place each char from the integer into seperate objects
+  // If char has never appeared in object set key to value and set key-pair value to 1
+  // If char has appeared in object, increment count by 1;
+  // Once all objects added, compare the objects, and if a mismatch is detected return false.
+  
+ */
+
+function sameFrequency(numberOne, numberTwo)
+{
+  var firstNumObj = {};
+  var secondNumObj = {};
+
+  numberOne = numberOne.toString();
+  numberTwo = numberTwo.toString();
+
+  if(numberOne.length != numberTwo.length)
+  {
+    return false;
+  }
+
+  firstNumObj = addToObj(firstNumObj, numberOne);
+  secondNumObj = addToObj(secondNumObj, numberTwo);
+  return checkObjects(firstNumObj, secondNumObj, numberOne.length)
+
+}
+
+function addToObj(obj, value)
+{
+  for(var i = 0; i < value.length; i++)
+  {
+    var charValue = value.charAt(i);
+
+    if(!obj[charValue])
+    {
+      obj[charValue] = 1;
+    }
+    else
+    {
+      obj[charValue] = obj[charValue] + 1;
+      }
+  }
+  return obj;
+}
+
+function checkObjects(obj1, obj2, length)
+{
+  for (var j = 0; j < length; j++) {
+    if (obj1[j] != obj2[j]) {
+      return false;
+    }
+  }
+  return true;
+  }
