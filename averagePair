@@ -1,0 +1,46 @@
+/*//Task 5 - Average Pair
+//Write a function that takes 2 arguments. 1 is a sorted array of numbers, and another which references an 
+//average of numbers. With the numbers in the array, check to see whether any pair of numbers in
+//the array can equal passed in the other argument. You must use pointers in your answer.
+
+
+//WorkList
+  //Create pointers which will reference the pair of numbers in the array
+  //Create logic that will get the average of 2 numbers
+  //Create logic that will move 1 pointer through the array, and another which will only move
+  //if the tail array has reached the end of the array increment the head array and set tail to head
+  //Logic to return false if all combinations have been exhausted
+  //Add use cases i.e. if if empty array is passed
+
+*/
+function averagePair(avgArray, averageValue)
+{
+  var head = 0;
+  var tail = 0;
+  var arrLength = avgArray.length;
+
+  if (arrLength === 0)
+  {
+    return false;
+  }
+
+  for (tail; tail <= arrLength; tail++)
+  {
+    
+    var result = (avgArray[head] + avgArray[tail]) / 2;
+    if(result === averageValue)
+    {
+        return true;
+    }
+    if(tail === arrLength)
+    {
+      head++;
+      tail = head;
+    }
+    if(tail === arrLength && head === arrLength)
+    {
+      return false;
+    }
+  
+  }
+}
