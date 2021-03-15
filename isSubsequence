@@ -1,0 +1,34 @@
+/*//Task 6: Write a function that takes 2 string arguments. The function is to detect whether the first
+//string argument exists in the 2nd argument. For example "Hello", "Hello World". The word has to be
+//in order, but doesn't need to be one whole e.g. "sing", "sting".
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+
+//Work List
+  // Create 2 variables which are pointers
+  // Create logic to iterate pointers. 1 pointer iterates first argument, another for the second.
+  // Use case logic e.g. if 1 argument is an empty string, first arg is longer than 2nd
+  //
+
+*/
+function isSubsequence(wordOne, wordTwo)
+{
+  var pointer = 0;
+
+  if(wordOne.length <= 0 || wordTwo.length <= 0)
+  {
+    return false
+  }
+  for(var i = 0; i < wordTwo.length; i++)
+  {
+    if(wordTwo[i] == wordOne[pointer])
+    {
+      pointer++;
+    }
+    if(pointer === wordOne.length)
+    {
+      return true;
+    }
+  }
+  return false;
+}
