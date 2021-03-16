@@ -1,0 +1,43 @@
+/*
+//Task 5 - Create a function that returns the maximum number given an length passed as a second argument.
+//Must use Sliding Window pattern
+//Time Complexity: O(n)
+
+//Created by Colt Steele, using as learning material to understand slinding window better as I struggled
+//with this task
+
+*/
+
+function maxSubarraySum(arr, num) {
+
+  //If the array length is smaller than the second argument return null
+  //As we don't have enough numbers to add
+  if (arr.length < num) return null;
+
+  
+  let total = 0;
+  for (let i = 0; i < num; i++) {
+    //Iterate over the array and add the numbers together until we reach the count provided in
+    //the 2nd argument
+    total += arr[i];
+  }
+
+  //Set a new variable which stores the first calculation
+  let currentTotal = total;
+
+  //Now iterate through the rest of the array, but the starting point being the 2nd argument
+  //This is because we've done the first set of calculations and don't need to waste time redoing them
+  for (let i = num; i < arr.length; i++) {
+
+    //Current total add the value of the right to the variable.
+    //We get the value arr[i] from the array, and then substract the previous head of the array.
+    //This prevents us having to loop over the same numbers over again, and instead keeps the 
+    //calculations to a very minimal amount. It helps try and prevent O(n2) 
+    currentTotal += arr[i] - arr[i - num];
+
+    //We then use the max function in the Math class to tell us which value is higher, and then set
+    //total to the highest value. Continue this until the loop finishes and then return the total value;
+    total = Math.max(total, currentTotal);
+  }
+  return total;
+}
