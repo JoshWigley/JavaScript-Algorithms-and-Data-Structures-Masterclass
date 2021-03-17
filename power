@@ -1,0 +1,50 @@
+/*
+
+Task 10 - Create a recursive function that finds the base (of a power)
+
+WorkList
+  //Create recursive function that calculates the base value
+  // Create base case so that the function exits
+  // Add use cases such as exponent being 0 or base and exponent being the same
+
+*/
+
+function power(base, exponent) {
+
+    var result = 0;
+
+    if(exponent === 0)
+      return 1;
+
+    if(exponent === base)
+      return base;
+
+    function powerHelp(base, exponent)
+    {
+        if(exponent === 0)
+        {return;}
+        var temp = base * base;
+        result = result + temp;
+        exponent--;
+        powerHelp(base, exponent)
+    }
+    powerHelp(base, exponent);
+    return result;   
+}
+
+/*
+
+Refactored function after some time looking at other examples 
+
+function power1(base, exponent)
+{
+  if (exponent === 0)
+  {return 1;}
+  if(exponent === 1)
+  {
+    return base;
+  }  
+  return base * power1(base, exponent - 1);
+
+}
+*/
