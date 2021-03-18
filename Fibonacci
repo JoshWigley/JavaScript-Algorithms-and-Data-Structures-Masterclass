@@ -1,0 +1,19 @@
+/*
+
+Task 13 - Create a recursive function that returns the Fibbonacci value of a given index
+
+//WorkList
+
+//Create a recursive function that works out the Fibbonacci value;
+//Return the Fib value of the index passed via the argument.
+//Create base case to prevent StackOverflow
+ */
+
+function fib(index)
+{
+  if(index <= 1)
+  return index;
+  return fib(index - 1) + fib(index-2)
+}
+
+
