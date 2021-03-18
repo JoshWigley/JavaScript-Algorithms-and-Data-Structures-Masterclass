@@ -1,0 +1,26 @@
+/*
+Task 14 - Create a recursive function takes a string argument and reverses the string
+
+//WorkList
+
+//Create a recursive function that works out the Fibbonacci value;
+//Return the Fib value of the index passed via the argument.
+//Create base case to prevent StackOverflow
+//Create function without using a helper method
+ */
+
+//Refactored version
+function reversev1(value)
+{
+
+  if(value.length === 0)
+  {return value}
+  return value[value.length - 1] + reverse(value.substring(0, value.length-1));
+
+}
+
+
+
+
+
+
