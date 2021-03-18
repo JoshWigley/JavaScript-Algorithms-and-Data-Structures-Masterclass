@@ -1,0 +1,45 @@
+/*
+
+Task 12 - Create a recursive function that  takes a numeric argument. With that argument add up the sum of all numbers that lead to that argument e.g. if 6 is passed add 1+2+3+4+5+6;
+
+//WorkList
+
+//Create a recursive function that takes 1 away from the previous argument
+//Create base case to stop the recursion
+//Support use cases such as empty arguments or 0 to prevent StackOverfow
+ */
+
+
+function recursiveRange(range) {
+  var result = 0;
+  function rangeHelper(range) {
+    if (range === 0) {
+      return result;
+    }
+    result = result + range;
+    range--;
+    rangeHelper(range);
+  }
+  rangeHelper(range);
+  return result;
+}
+
+//Refactored version
+function recursiveRange1(range) {
+
+  if(isNaN(range))
+  { throw new Error("Invalid Argument Passed. Pass an integer value") }
+  if (range <= 0) {
+    return range;
+  }
+  return range + recursiveRange1(range - 1)
+}
+
+
+
+
+
+
+
+
+
