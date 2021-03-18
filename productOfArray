@@ -1,0 +1,22 @@
+/*
+Task 12 - Create a recursive function that works out the product of all elements in an array. In other words, multiple all elements within that array and return the sum
+
+//WorkList
+
+//Create a recursive function
+//Create base case to stop the recursion
+//Slice the first off the first value in the array per function call (prevents same number getting multipled)
+
+ */
+
+function productOfArray(arr) {
+  var result = 1;
+  function arrayHelper(arr) {
+    if (arr.length <= 0) { return result; }
+    result = arr[0] * result;
+    arr.splice(0, 1);
+    arrayHelper(arr)
+  }
+  arrayHelper(arr);
+  return result;
+}
