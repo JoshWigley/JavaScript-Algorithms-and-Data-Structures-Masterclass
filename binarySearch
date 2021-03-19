@@ -1,0 +1,37 @@
+/*
+
+Create a function which accepts an array and returns the index at which the value exists. MUST use binary search logic.
+
+
+Let min = 1min=1m, i, n, equals, 1 and max = nmax=nm, a, x, equals, n.
+Guess the average of maxmaxm, a, x and minminm, i, n, rounded down so that it is an integer.
+If you guessed the number, stop. You found it!
+If the guess was too low, set minminm, i, n to be one larger than the guess.
+If the guess was too high, set maxmaxm, a, x to be one smaller than the guess.
+Go back to step two.
+ */
+function binarySearch(arr, value)
+{ 
+  var min = 0;
+  var max = arr.length-1;
+  var mid = Math.round(arr.length / 2);
+
+  for(var item in arr)
+  {
+      if(arr[mid] == value)
+      {return mid;}
+      if(value > arr[mid])
+      {
+        min = mid+1;
+      }
+      if(value < arr[max])
+      {
+        max = mid-1;
+      }
+      mid = Math.round(min, max)
+  }
+  return -1;
+}
+
+
+
