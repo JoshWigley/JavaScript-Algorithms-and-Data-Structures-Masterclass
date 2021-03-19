@@ -1,0 +1,25 @@
+/*
+
+Create a function which sorts an integer array from lowers to highest values using bubble sort solving algorithm.
+ */
+
+function bubbleSort(arr)
+{
+  var noSwapped;
+  for(var i = arr.length; i > 0; i--)
+  {
+    noSwapped = true;
+    for(var j = 0; j < i-1; j++)
+    {
+      var temp = arr[j+1];
+      if(arr[j] > arr[j+1])
+      {
+        arr[j+1] = arr[j];
+        arr[j] = temp;
+        noSwapped = false;
+      }
+    }
+    if(noSwapped) break;
+  }
+  return arr;
+}
