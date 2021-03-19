@@ -1,0 +1,16 @@
+/*
+
+Create a function which accepts an array and returns the index at which the value exists. CANNOT use indexOf
+
+ */
+function linearSearch(arr, value)
+{ 
+  for(var i = 0; i < arr.length; i++)
+  {
+    if(arr[i] === value)
+    {
+      return i;}
+  }
+  return -1;
+
+}
