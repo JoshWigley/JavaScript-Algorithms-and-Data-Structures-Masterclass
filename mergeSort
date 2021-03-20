@@ -1,0 +1,37 @@
+/*
+Create a function that takes 2 sorted arrays (can be different sizes), and push those values into a new array that is also sorted. Must use merge sort algorithm to implement this.
+
+- Create an empty array
+
+-- While loop where there are still values available
+
+-- If the value in the first array is smaller than the value in the second array, push the first value into the new array and move to the next value in the first array.
+
+-- If the value in the first array is larger than the value in the second array, push the second value into the new array and move to the next value in the second array
+
+-- Once an array is exahusted, push the remaining values from the non-empty array into the new array
+
+-- Return the new array.
+
+ */
+
+
+function mergedSort(arr1, arr2) {
+  var result = [];
+  var i = 0;
+  var j = 0;
+
+  while (i < arr1.length || j < arr2.length) {
+    if (arr1[i] < arr2[j] || j >= arr2.length) {
+      result.push(arr1[i]);
+      i++;
+    }
+    else if (arr2[j] < arr1[i] || i >= arr1.length) {
+      result.push(arr2[j]);
+      j++;
+    }
+  }
+  return result;
+}
+
+console.log(mergedSort([1, 3, 5, 7, 9, 11, 15], [2, 4, 6, 8]))
