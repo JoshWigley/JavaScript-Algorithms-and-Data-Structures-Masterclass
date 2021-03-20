@@ -1,0 +1,27 @@
+/*
+Create a function that sorts an array from smallest to highest using a insertion sort algorithm.
+
+//Pick the 2nd function in the array (1st is considered sorted)
+
+//Compare elements with previous element and swap if required
+
+//Go through elements and if it's in the incorrect order iterate and sort into correct array position
+
+//Continue until array is sorted
+ */
+
+
+function insertionSort(arr) {
+  if (arr.length <= 0) {
+    return arr;
+  }
+
+  for (var i = 1; i <= arr.length - 1; i++) {
+    var currentValue = arr[i]
+    for (var j = i-1; j >= 0 && arr[j] >= currentValue; j--) {
+      arr[j+1] = arr[j];
+    }
+    arr[j+1] = currentValue;
+  }
+  return arr;
+}
