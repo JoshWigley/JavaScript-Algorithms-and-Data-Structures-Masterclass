@@ -1,0 +1,68 @@
+/*
+
+Code that demostrates merge sort algorithm whilst also using recursion.
+
+Code written by Colt Steele, using as reference as this was my first time looking at this algorithm, and wanted to full understand what was happening for this function to work. 
+
+Comments are mine, to help with learning.
+
+ */
+
+
+function merge(arr1, arr2) {
+
+//Create an empty array that will store the sorted array values
+  let results = [];
+  let i = 0;
+  let j = 0;
+
+  //While one of the arrays have not been exhausted, continue to loop through them
+  while (i < arr1.length && j < arr2.length) {
+
+    //If the value in the second array is greater than the first, then push the smallers value into the results array, then increment the counter to move up the array.
+    if (arr2[j] > arr1[i]) {
+      results.push(arr1[i]);
+      i++;
+    } else {
+      //If the value in the second array is smaller than the first, then push the value in the second array into results array, and increment the j count to move up the second array.
+      results.push(arr2[j])
+      j++;
+    }
+  }
+
+  //If the second array has been exhausted we loop through the remaining values in array1 and place them in results array.
+  while (i < arr1.length) {
+    results.push(arr1[i])
+    i++;
+  }
+
+ //If the first value has been exhausted loop through the second array and place the remaining values into the results array. 
+  while (j < arr2.length) {
+    results.push(arr2[j])
+    j++;
+  }
+
+  //return the sorted array.
+  return results;
+}
+
+// Recrusive Merge Sort
+function mergeSort(arr) {
+
+  //if the array is empty or has 1 value then just return the array, we don't need to do any more slicing.
+  if (arr.length <= 1) return arr;
+
+  //Find the middle value of the array, rounding down if there is not a specific middle value.
+  let mid = Math.floor(arr.length / 2);
+
+//Call mergeSort function on the sliced array, which will then continute to slice that array until we get to 1 value arrays. Remember recursive functions get placed top of the stack, so until we've sliced the entire array, we continue to run mergeSort on the left side of the array.
+  let left = mergeSort(arr.slice(0, mid));
+
+//Call mergeSort function on the "right" side of the array once we've split up the left side of the array into individual arrays.  
+  let right = mergeSort(arr.slice(mid));
+
+//Once the array has been completely split into 1 value arrays, run through the "merge" function, which will go through each element in the array and sort them by size. Once completed, it will return a single sorted array.
+  return merge(left, right);
+}
+
+console.log(mergeSort([10, 24, 76, 73]));
