@@ -66,3 +66,18 @@ function mergeSort(arr) {
 }
 
 console.log(mergeSort([10, 24, 76, 73]));
+
+/*
+
+                  [10,24,76,73]
+                  mergeSort([10,24,76,73])
+
+        [10, 24]                    [76,73]
+        mergeSort([10,24])        mergeSort([76,73])
+
+[10]  merge [24]                  [76] merge [24]
+
+mergeSort([10]) mergeSort([24])  mergeSort([76]) mergeSort([24])
+
+
+ */
