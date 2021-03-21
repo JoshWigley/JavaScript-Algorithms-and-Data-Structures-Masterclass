@@ -1,0 +1,72 @@
+/*
+
+Source code that demonstrates the implementation of Quicksort algorithm.
+
+Code by Cole Steele, using this as reference material to better understand the algorithm and how it functions.
+
+Comments by me.
+
+ */
+function pivot(arr, start = 0, end = arr.length - 1) {
+
+  //Using new ES2015 syntax take array values and swap them over.
+  const swap = (arr, idx1, idx2) => {
+    [arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
+  };
+
+  // We are assuming the pivot is always the first element
+  //We know choosing the first or last elements can be bad, especially if the arrays are almost or already sorted. This can push the time complexity up to O(n^2) rather than O(n Log n)
+  let pivot = arr[start];
+  let swapIdx = start;
+
+  //Log through the array
+  for (let i = start + 1; i <= end; i++) {
+
+    //If the "pivot" variable is greater than the current array value, then increment the swap count, and then call the swap function which swaps the positions of the smaller value with the larger one.
+    if (pivot > arr[i]) {
+      swapIdx++;
+      swap(arr, swapIdx, i);
+    }
+  }
+
+  // Swap the pivot from the start the swapPoint
+  swap(arr, start, swapIdx);
+  return swapIdx;
+}
+
+
+
+function quickSort(arr, left = 0, right = arr.length - 1) {
+  //If the left value is lower than right i.e. we still have elements to sort in the array
+  if (left < right) {
+
+    //Call the pivot function. The pivot "indicates" a value that is sorted into the correct position.
+    let pivotIndex = pivot(arr, left, right) //3
+    
+    //left
+    //Call the quick sort function on the left side of the      array. The left side is every item to the left of the pivot (not including the pivot hence the -1) 
+    quickSort(arr, left, pivotIndex - 1);
+  
+    //Call the quick sort function on the right side of the array. The right side being all item to the right of the pivot (not including the pivot). 
+    quickSort(arr, pivotIndex + 1, right);
+  }
+  return arr;
+}
+
+console.log(quickSort([100, -3, 2, 4, 6, 9, 1, 2, 5, 3, 23]))
+
+
+
+
+// [4,6,9,1,2,5,3]
+// [3,2,1,4,6,9,5]
+//        4
+//  3,2,1    6,9,5
+//      3      6
+//  2,1      5  9
+//    2
+//  1
+
+
+
+
