@@ -1,0 +1,73 @@
+/*
+
+A collection of functions that helps demonstrate how Radix Sort works.
+
+Code from StackOverFlow and Colt Steele.
+
+Using for educational purposes to better understand how Radix Sort works.
+
+Comments my own.
+
+*/
+
+
+//This function returns the specific digit from a provided index. This is simple for something like a string, but with an integer, it is slightly more difficult.
+function getDigit(num, i) {
+  return Math.floor(Math.abs(num) / Math.pow(10, i)) % 10;
+}
+
+//The function that determines how many digits are using within a given number e.g. 12 = 2, 200 = 3, 1000 = 4.
+function digitCount(num) {
+  if (num === 0) return 1;
+  console.log(Math.floor(Math.log10(Math.abs(num))) + 1);
+  return Math.floor(Math.log10(Math.abs(num))) + 1;
+}
+
+//Part of fundemental radix count is to know how many times we need to iterate over the values, so this function will determine what is the longest number. Longest being how many digits, and not just one number being greater than the other.
+function mostDigits(nums) {
+  let maxDigits = 0;
+  for (let i = 0; i < nums.length; i++) {
+    maxDigits = Math.max(maxDigits, digitCount(nums[i]));
+  }
+  return maxDigits;
+}
+
+//Radix sort works by checking each individual digit, and putting them into a corresponding bucket. A bucket, is typically an array of arrays which consists on 0,9 (0-9 being the relevant array for each digit) so if a digit within a number is 4, it'll go into the 4th bucket.
+function radixSort(nums) {
+
+  //We find out which number has the most digits.
+  let maxDigitCount = mostDigits(nums);
+
+  //Then we loop round the array of numbers, Kth times (K = number of digits)
+  for (let k = 0; k < maxDigitCount; k++) {
+
+    //We then create the bucket, which is an array of arrays, in this case, it's 10 arrays from 0-9
+    let digitBuckets = Array.from({ length: 10 }, () => []);
+
+    //We then loop round N number of times (N being the length of the array)
+    for (let i = 0; i < nums.length; i++) {
+
+      //Get then get the digit of the current value in the loop
+      //nums[i] = 1234, k = 2nd digit, so digit = 3
+      let digit = getDigit(nums[i], k);
+
+      //We then push that value to the correct bucket.
+      digitBuckets[digit].push(nums[i]);
+    }
+
+    //Once we've finished the loop, we concat all the arrays together, to make one sorted array.
+    //Radix seems pretty mental, but also a very cool way of sorting integer values without the need for comparisons.
+    nums = [].concat(...digitBuckets);
+  }
+  return nums;
+}
+
+radixSort([23, 345, 5467, 12, 2345, 9852])
+
+
+
+
+
+
+
+
