@@ -1,0 +1,279 @@
+/*
+
+A custom class created to help understand and learn how Singly linked lists worked.
+
+Code and comments are my own.
+
+Large number of comments are purely for educational purposes.
+
+ */
+
+class SinglyLinkedList {
+
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
+
+  //Push - add a node to the end of our list.
+  push(val) {
+    //We create a new instance of node
+    var temp = new node(val);
+
+    //If length is 0, then the list is empty to set both head and tail to new node
+    if (this.length === 0) {
+      this.head = temp;
+      this.tail = temp;
+    }
+    else
+    {
+      //Otherwise, set the current tails next property to the new node, and then set the tail to the new node
+      this.tail.next = temp;
+      this.tail = temp;
+    }
+    //incremement the length to show another link has been added to the list.
+    this.length++;
+   
+  }
+
+  //Pop removes the tail of a list and returns the value to the user
+  pop() {
+    var current = this.head;
+    var removedTail = this.tail;
+
+    //If the list is empty return undefined
+    if (this.head === null) {
+      return undefined;
+    }
+
+    //Loop through the array until we get to the 2nd from last item in the list
+    while (current.next != null) {
+      if (current.next === this.tail) {
+        current = current;
+        break;
+      }
+      current = current.next;
+    }
+
+    //Set the 2nd from last node to the new tail and set it's next property to null. Reduce length by 1 to indicate we've removed a node
+    this.tail = current;
+    this.tail.next = null;
+    this.length--;
+
+    //If we remove the last link in the list set the head and tail to null
+    if (this.length == 0) {
+      this.head = null;
+      this.tail = null;
+    }
+
+    return "Pushed Value is: " + removedTail.val;
+  }
+
+  //Shift - Create a function that removes the first node in a list
+  shift() {
+    var current = this.head;
+
+    //If the current.next value is null we know this list is 1 so we set the tail to null.
+    if (current.next === null) {
+      this.tail = null;
+    }
+    if (current === null) {
+      this.tail = null;
+      return undefined;
+    }
+
+    //Set the head to the 2 node in the list and reduce the length to indicate a node has been removed.
+    this.head = current.next;
+    this.length--;
+    return "Shifted Value is: " + current.val;
+
+  }
+
+  //Unshift - Place a node at the start of the list
+  unshift(val) {
+
+    var newNode = new node(val);
+
+    //If the head and tail are null, then we know the this is empty, so set the head and tail.
+    if (this.head === null && this.tail === null) {
+      this.head = newNode;
+      this.tail = this.head
+    }
+    else {
+      //If it's not, then create a new node and set it's next property to the old head. Then set the class head property to this node.
+      newNode.next = this.head;
+      this.head = newNode;
+
+    }
+    this.length++;
+    return this;
+  }
+
+  //get - returns the node of a given index
+  get(val) {
+    var count = 0;
+    var node = this.head;
+
+    //If val isn't a number or is less than 0 return null
+    if (val < 0 || isNaN(val)) {
+      return null;
+    }
+    //If it's greater than the number of nodes we have then return null
+    if (val >= this.length) {
+      return null;
+    }
+
+   //loop through the list until we reach the count threshold.
+    while (count != val) {
+
+      node = node.next;
+      count++
+    }
+
+    //Return the node.
+    return node;
+  }
+
+  //set - change the value in a given node.
+  set(val, index) {
+
+    //Call get method to return the specific node given the index argument that's passed
+    var node = this.get(index);
+
+    //if null then return false
+    if (node === null) { return false; }
+    
+    //change the val property to whatever was passed in the arg.
+    node.val = val;
+
+    return true;
+  }
+
+  //Insert - places a new node in a given index
+  insert(val, index) {
+    var newNode = new node(val);
+    var current = this.head;
+    var previous;
+    var count = 0;
+
+    //if index is below 0 or exceeds the length of the list then return false
+    if (index < 0 || index > this.length) {
+
+      return false;
+    }
+
+    //If the index is = to the list length call the "push" method to place node at the end of the list
+    if (index === this.length) {
+      return this.push(val)
+    }
+
+    //If the index = 0 then call the unshift method to place node at the beginning of list.
+    if (index === 0) { this.unshift(val) }
+
+    // loop through list and when the given index is found, change the previous node to now point to the new node, and set the new node.next property to point to the next node in the list
+    while (count <= index) {
+      previous = current;
+      current = current.next;
+      count++;
+
+      if (count === index) {
+        previous.next = newNode;
+        newNode.next = current;
+        current.next = current.next;
+        this.length++;
+        return true;
+      }
+
+    }
+
+  }
+
+
+  //Remove - remove a node from a given index.
+  remove(index) {
+
+    // If the index is less than 0 or greater than the list length return undefined
+    if (index < 0 || index > this.length) { return undefined }
+    
+    //if index is 1 less than the length then call the pop method
+    if (index === this.length - 1) { return this.pop() }
+    
+    //If index = 0 then call the shift method
+    if (index === 0) { return this.shift() }
+
+    var count = 0;
+    var previous = null;
+    var current = this.head;
+    var next = current.next;
+
+    //Loop through the list, and if the node is found, set the previous next node property to point to current next value, then set the current next property to null to remove it from the list.
+    while (count <= index) {
+      count++;
+
+      previous = current;
+      current = current.next;
+
+      if (current.next === null) { return false; }
+      next = current.next;
+
+      if (count === index) {
+        previous.next = current.next;
+        current.next = null;
+        this.length--;
+        return current;
+      }
+    }
+  }
+
+  //Print - sticks the values of the list into an array then displays on the console.
+  print() {
+    var arr = [];
+    var current = this.head;
+    while (current) {
+      arr.push(current.val);
+      current = current.next
+    }
+    console.log(arr)
+  }
+
+  //reverse - reverses the direction of the linked list
+  reverse() {
+    var head = this.head;
+    var next = null;
+    var previous = null;
+    var current = this.head;
+
+    //Loop through the list until we've reached the end.
+    while (current != null) {
+
+
+      //Set the next property to the next node to whatever current is pointing at.
+      next = current.next;
+
+      //Set the current next property to the previous node. This in essence is changing the array from e.g. 100 --> 50 to 100 <-- 50
+      current.next = previous;
+      
+      //Set previous to current, so we now move onto the next node in the list
+      previous = current;
+
+      //Set current to next to move the pointer up one to the next node.
+      current = next;
+    }
+
+    //Swap the head and tail values
+    this.head = previous;
+    this.tail = head;
+    }
+
+}
+
+class node {
+
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+  }
+}
+
+var sll = new SinglyLinkedList();
