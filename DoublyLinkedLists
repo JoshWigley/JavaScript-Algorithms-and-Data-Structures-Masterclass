@@ -1,0 +1,215 @@
+/*
+
+A class designed to understand how Doubly Linked Lists work.
+
+Code is my own.
+
+ */
+
+class node {
+
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+    this.previous = null;
+  }
+}
+
+class DoublyLinkedList {
+
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
+
+  //Push - adds a value to the end of a list
+  push(val) {
+
+    var newNode = new node(val)
+    if (this.head === null) {
+      this.head = newNode; this.tail = newNode;
+    }
+    else {
+
+      var tail = this.tail
+      this.tail.next = newNode;
+      this.tail = newNode;
+      newNode.previous = tail;
+    }
+    this.length++
+    return this;
+  }
+
+
+
+  //Remove node from end of a list
+  pop() {
+    if (this.length === 0) {
+      return undefined
+    }
+    if (this.length === 1) {
+      this.head = null;
+      this.tail = null;
+    }
+    else {
+      var tail = this.tail;
+      var previous = this.tail.previous;
+      this.tail.previous = null;
+      previous.next = null;
+      this.tail = previous;
+    }
+
+    this.length--;
+    return tail;
+  }
+
+  //Shift removes a node from the beginning
+  shift() {
+    if (this.length === 0) { return undefined }
+
+    var oldHead = this.head;
+    if (this.length === 1) {
+      this.head = null;
+      this.tail = null;
+    }
+    else {
+      this.head = oldHead.next;
+      this.head.previous = null;
+      oldHead.next = null;
+    }
+    this.length--;
+
+    return oldHead;
+  }
+
+  //Unshift adds a node to the beginning of a list
+  unshift(val) {
+    var newNode = new node(val);
+    if (this.length === 0) {
+      this.head = newNode;
+      this.tail = newNode;
+    }
+    else {
+      this.head.previous = newNode;
+      newNode.next = this.head;
+      this.head = newNode;
+    }
+    this.length++;
+    return this;
+  }
+
+  //Get - acessing a node by its position
+  get(index) {
+    var direction = Math.round(this.length / 2)
+    if (index < 0 || index > this.length) { return undefined; }
+    var count, current;
+    if (index <= direction) {
+      count = 0;
+      current = this.head;
+      while (count <= index) {
+        if (count === index) {
+          return current;
+        }
+        current = current.next;
+        count++
+      }
+    }
+    else {
+      count = this.length - 1;
+      current = this.tail;
+      while (count >= index) {
+        if (count === index) {
+          return current;
+        }
+        current = current.previous;
+        count--;
+      }
+    }
+    return current;
+  }
+
+  //Set - replacing the value of a node in a doubly linked list
+  set(val, index) {
+    var node = this.get(index-1)
+    if (!node) { return false }
+    node.val = val;
+    return true
+  }
+
+  //Adding a node in a doubly linked list in a certain position
+  insert(val, index) {
+
+    if (index < 0 || index > this.length) { return undefined; }
+
+    if (index === 0) {
+      return this.unshift(val);
+    }
+
+    if (index === this.length) {
+      return this.push(val);
+    }
+
+    var newNode = new node(val);
+    var foundNode = this.get(index);
+
+    if (!node) { return false }
+
+    var nextNode = foundNode.next;
+    var previous = foundNode.previous;
+
+    previous.next = newNode;
+    newNode.previous = previous;
+    newNode.next = nextNode;
+    nextNode.previous = newNode;
+    this.length++;
+    return true;
+
+  }
+
+  //Remove a node in a doubly linked list by position
+  remove(index) {
+    if (index === 0) {
+      return this.shift();
+    }
+
+    if (index === this.length - 1) { return this.pop() }
+
+    var foundNode = this.get(index)
+
+    if (!foundNode) { return false; }
+
+    var previousNode = foundNode.previous;
+    var nextNode = foundNode.next;
+
+    previousNode.next = nextNode;
+    nextNode.previous = previousNode;
+    foundNode.previous = null;
+    foundNode.next = null;
+
+    this.length--;
+    return true;
+  }
+
+  //Reverse a doubly linked list
+  reverse()
+  {
+    var current = this.head;
+    var previous = null;
+    var next = null;
+
+    this.head = this.tail;
+    this.tail = current;
+    for(var i = 0; i < this.length; i++)
+    {
+      next = current.next;
+      current.next = previous;
+      current.previous = next;
+      previous = current;
+      current = next;
+    }
+    return this;
+  }
+}
+
+var dll = new DoublyLinkedList();
