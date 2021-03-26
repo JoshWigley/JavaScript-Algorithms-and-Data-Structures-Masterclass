@@ -1,0 +1,84 @@
+/*
+
+A class demonstrating how BST (Binary Search Trees work)
+
+ */
+class BinarySearchTree {
+
+  constructor() {
+    this.root = null;
+  }
+
+
+// Traverse - a seperate function used to navigate through an object depending on the conditions that are met. 
+  traverse(val) {
+    var currentNode = this.root;
+    while (currentNode.right != null && val > currentNode.value) {
+      currentNode = currentNode.right;
+    }
+    while (currentNode.left != null && val < currentNode.value) {
+      currentNode = currentNode.left;
+    }
+    return currentNode;
+  }
+
+//insert - used to insert a new child within the tree. Uses the traverse function to work out it's correct location.
+
+//For future Josh reference, this code could be made much better (as demonstrated in contains) but to track progress leave what you've done so far.... also... recursion could just as easily be used for this, but recursion still scares me a bit, especially after the 100th crashed browser..
+  insert(val) {
+    var newNode = new Node(val)
+    var foundNode;
+    if (this.root === null) {
+      this.root = newNode;
+    }
+    var currentNode = this.root;
+    if (val > currentNode.value) {
+      currentNode = this.traverse(val);
+    }
+    else if (val < currentNode.value) {
+      currentNode = this.traverse(val);
+    }
+    if (val > currentNode.value) {
+
+      currentNode.right = newNode
+    }
+    if (val < currentNode.value) {
+      currentNode.left = newNode;
+    }
+  }
+
+
+//contains - returns a node or false value depending on whether the value passed in the argument is found within the tree.
+  contains(val) {
+    var currentNode = this.root;
+    if (currentNode === null) {
+      return false;
+    }
+    while (currentNode) {
+      if (val >= currentNode.value) {
+        if (currentNode.value === val) {
+          return currentNode
+        }
+        currentNode = currentNode.right;
+      }
+      else {
+        if (val <= currentNode.value) {
+          if (currentNode.value === val) {
+            return currentNode;
+          }
+          currentNode = currentNode.left;
+        }
+      }
+    }
+    return false;
+  }
+}
+
+class Node {
+  constructor(val) {
+    this.value = val;
+    this.left = null;
+    this.right = null;
+  }
+}
+var tree = new BinarySearchTree();
