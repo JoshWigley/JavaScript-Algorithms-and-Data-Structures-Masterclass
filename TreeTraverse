@@ -1,0 +1,155 @@
+/*
+
+A class used to demonstrate how to search trees, and how different searches can provide varying results. 
+
+ */
+
+class BinarySearchTree {
+
+  constructor() {
+    this.root = null;
+  }
+
+  traverse(val) {
+    var currentNode = this.root;
+    while (currentNode.right != null && val > currentNode.value) {
+      currentNode = currentNode.right;
+    }
+    while (currentNode.left != null && val < currentNode.value) {
+      currentNode = currentNode.left;
+    }
+    return currentNode;
+  }
+  insert(val) {
+    var newNode = new Node(val)
+    var foundNode;
+    if (this.root === null) {
+      this.root = newNode;
+    }
+    var currentNode = this.root;
+    if (val > currentNode.value) {
+      currentNode = this.traverse(val);
+    }
+    else if (val < currentNode.value) {
+      currentNode = this.traverse(val);
+    }
+    if (val > currentNode.value) {
+
+      currentNode.right = newNode
+    }
+    if (val < currentNode.value) {
+      currentNode.left = newNode;
+    }
+  }
+  
+  //BFS (Breadth First Search). Used to traverse a tree horizontally.
+  bfsSearch() {
+
+    var data = [];
+    var queueArray = [];
+    var currentNode = this.root;
+
+    queueArray.push(currentNode)
+    while (queueArray.length) {
+      currentNode = queueArray.shift();
+      data.push(currentNode.value);
+      if (currentNode.left) queueArray.push(currentNode.left);
+      if (currentNode.right) queueArray.push(currentNode.right);
+    }
+    return data;
+  }
+
+  //DFS (Depth First Search) PreOrder: Will traverse the tree horizontally in the order they were added.
+  dfsPreOrderSearch() {
+    var data = [];
+    var currentNode = this.root
+
+    function preOrderHelper(currentNode) {
+      if (!currentNode) {
+        return currentNode;
+      }
+      data.push(currentNode.value)
+
+      if (currentNode.left) {
+        preOrderHelper(currentNode.left);
+      }
+
+      if (currentNode.right) {
+        preOrderHelper(currentNode.right)
+      }
+    }
+
+    preOrderHelper(currentNode)
+    return data
+
+  }
+
+  //DFS PostOrder: Will traverse the tree horizontally but add the bottom nodes/leafs first, then add backwards
+  dfsPostOrderSearch() {
+    var data = [];
+    var currentNode = this.root
+
+    function preOrderHelper(currentNode) {
+      if (!currentNode) {
+        return currentNode;
+      }
+      if (currentNode.left) {
+        preOrderHelper(currentNode.left);
+      }
+
+      if (currentNode.right) {
+        preOrderHelper(currentNode.right)
+      }
+      data.push(currentNode.value)
+    }
+    preOrderHelper(currentNode)
+    return data
+
+  }
+
+  //DFS InOrder: Will traverse the tree horizontally, but will traverse via the order from lowest to highest.
+  dfsInOrderSearch() {
+    var data = [];
+    var currentNode = this.root
+
+    function preOrderHelper(currentNode) {
+      if (!currentNode) {
+        return currentNode;
+      }
+      if (currentNode.left) {
+        preOrderHelper(currentNode.left);
+      }
+      data.push(currentNode.value)
+      if (currentNode.right) {
+        preOrderHelper(currentNode.right)
+      }
+
+    }
+    preOrderHelper(currentNode)
+    return data
+
+  }
+}
+class Node {
+  constructor(val) {
+    this.value = val;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+var tree = new BinarySearchTree();
+
+tree.insert(10)
+tree.insert(6)
+tree.insert(15)
+tree.insert(3)
+tree.insert(8)
+tree.insert(20)
+tree.insert(16)
+
+console.log(tree.bfsSearch())
+console.log(tree.dfsPreOrderSearch())
+console.log(tree.dfsPostOrderSearch())
+console.log(tree.dfsInOrderSearch())
+console.log(tree)
