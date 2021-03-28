@@ -1,0 +1,98 @@
+/*
+
+A class to understand Heaps, along with how MaxBinaryHeaps function
+
+Index = n;
+Left Child = 2n + 1;
+Right Child = 2n + 2;
+Find Parent = (n - 1) / 2;
+
+ */
+
+
+class MaxBinaryHeap {
+  constructor() {
+    this.valArr = [];
+  }
+
+  //bubbleUp - compares 2 values and reshifts those values if the parent node is less than the index node
+  bubbleUp() {
+    var index = this.valArr.length - 1;
+    var parentIndex = Math.floor((index - 1) / 2);
+
+    if (index.length <= 0) {
+      return;
+    }
+
+    while (this.valArr[parentIndex] <= this.valArr[index]) {
+
+      var temp = this.valArr[parentIndex];
+      this.valArr[parentIndex] = this.valArr[index];
+      this.valArr[index] = temp;
+      index = parentIndex;
+      parentIndex = Math.floor((index - 1) / 2)
+    }
+
+
+  }
+
+//insert - inserts a value into the array, and then calls bubbleUp method to order the Heap correctly.
+  insert(val) {
+    if (val != null) {
+      this.valArr.push(val)
+      this.bubbleUp()
+      return this.valArr;
+    }
+
+  }
+
+//extractMax - Remove the highest value in the Heap. Calls sinkdown method
+  extractMax() {
+
+    const max = this.valArr[0];
+    const end = this.valArr.pop();
+    this.valArr[0] = end;
+    this.sinkDown();
+    return max;
+  }
+
+  //sinkDown - Used to order the tree to make sure that the values follow Max Binary heap logic i.e. parents always greater than children
+  sinkDown() { 
+
+    var index = 0;
+    const length = this.valArr.length;
+    const element = this.valArr[0];
+
+    while (true) {
+      var leftChildIndex = 2 * index + 1;
+      var rightChildIndex = 2 * index + 2;
+      var leftChild, rightChild;
+      var swap = null;
+
+      if (leftChildIndex < length) {
+        leftChild = this.valArr[leftChildIndex];
+        if (leftChild > element) {
+          swap = leftChildIndex;
+        }
+      }
+
+      if (rightChildIndex < length) {
+        rightChild = this.valArr[rightChildIndex];
+
+        if (swap === null && rightChild > element ||
+          (swap !== null && rightChild > leftChild)) {
+          swap = rightChildIndex;
+        }
+      }
+      if (swap === null) {
+        break;
+      }
+      this.valArr[index] = this.valArr[swap];
+      this.valArr[swap] = element;
+      index = swap;
+    }
+  }
+
+}
+
+var mbh = new MaxBinaryHeap();
