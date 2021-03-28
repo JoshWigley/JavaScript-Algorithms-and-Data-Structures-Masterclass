@@ -1,0 +1,118 @@
+/*
+
+A class to understand Heaps, along with how Min Binary Heaps function
+Priority Queue = 1 = High 5 = Low
+
+Follows Binary Heap logic - Min at the top, max at bottom
+No more than 2 nodes per parent
+
+Insertion/Removal = O(log n);  
+
+Index = n;
+Left Child = 2n + 1;
+Right Child = 2n + 2;
+Find Parent = (n - 1) / 2;
+
+
+ */
+class PriorityQueue {
+  constructor() {
+    this.values = [];
+  }
+
+//enqueue - pushes the value to the array, and then calls bubblesUp method.
+  enqueue(val, pri) {
+    var newNode = new Node(val, pri);
+    this.values.push(newNode);
+    this.bubbleUp();
+    return this.values;
+  }
+
+  //bubbleUp - Checks the parent element and current element priority values. If element is less than parent, loop through the heap and sort the nodes based on priority level.
+  bubbleUp() {
+    var index = this.values.length - 1;
+    const element = this.values[index];
+    while (index > 0) {
+      var parentIndex = Math.floor((index - 1)/2);
+      var parentElement = this.values[parentIndex];
+      
+      if(element.priority >= parentElement.priority){break;}
+      
+        this.values[parentIndex] = element;
+        this.values[index] = parentElement;
+        index = parentIndex;
+      
+    }
+  }
+
+  //dequeue - Removes the end value from the array and calls sinkDown method.
+  dequeue()
+  {
+    const min = this.values[0];
+    const end = this.values.pop();
+    if(this.values.length > 0)
+    {
+      this.values[0] = end;
+      this.sinkDown();
+    }
+    return min;
+  }
+
+  //sinkDown - loops through after a value has been popped from the array. Checks to make sure that the priority values are in order, and if not, move the nodes to the correct position in the heap.
+  sinkDown() {
+
+    var index = 0;
+    const length = this.values.length;
+    const element = this.values[0];
+
+    while (true) {
+      var leftChildIndex = 2 * index + 1;
+      var rightChildIndex = 2 * index + 2;
+      var leftChild, rightChild;
+      var swap = null;
+
+      if (leftChildIndex < length) {
+        leftChild = this.values[leftChildIndex];
+        if (leftChild.priority < element.priority) {
+          swap = leftChildIndex;
+        }
+      }
+      if (rightChildIndex < length) {
+        rightChild = this.values[rightChildIndex];
+
+        if (swap === null && rightChild.priority < element.priority ||
+          (swap !== null && rightChild.priority < leftChild.priority)) {
+          swap = rightChildIndex;
+        }
+      }
+      if (swap === null) {
+        break;
+      }
+      this.values[index] = this.values[swap];
+      this.values[swap] = element;
+      index = swap;
+    }
+  }
+}
+
+
+
+class Node {
+  constructor(val, pri) {
+    this.value = val;
+    this.priority = pri;
+  }
+}
+
+var pq = new PriorityQueue();
+pq.enqueue("Bruised Knee", 5)
+pq.enqueue("Broken Leg", 1)
+pq.enqueue("Cold", 4)
+pq.enqueue("Fever", 3)
+pq.enqueue("Sprain", 2)
+console.log(pq.dequeue());
+console.log(pq.dequeue());
+console.log(pq.dequeue());
+console.log(pq.dequeue());
+
+
