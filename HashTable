@@ -1,0 +1,100 @@
+/*
+
+A class used to demonstrate Hash Tables and the logic behind how hash tables work.
+
+Average Case Time Complexity
+
+Insert = O(1)
+Delete = O(1)
+Access = O(1)
+
+Note, that the Big O complexity is dependent on how good the hashing function performs.
+
+Hash Tree should be:
+
+- Fast
+- Distribute Key Uniformly
+- Deterministic i.e. that for a given input value it must always generate the same hash value
+
+ */
+
+class HashTable {
+  constructor(size = 53) {
+    this.keyMap = new Array(size)
+  }
+
+  //_hash - A very simple function that will hash a string value (String only)
+  // We use prime numbers in hashing because it reduces the chances of conflicts occuring in the hash table. This is because we want a number that has very few factors i.e. prime. While it is possible to use a non-prime number, it increases the chance of poor distribution within the tree, meaning the tree won't be uniform.
+  _hash(key) {
+    let total = 0;
+    let WEIRD_PRIME = 31;
+    for (let i = 0; i < Math.min(key.length, 100); i++) {
+      let char = key[i];
+      let value = Math.abs(char.charCodeAt(0) - 96)
+      total = (total * WEIRD_PRIME + value) % this.keyMap.length;
+    }
+    return total;
+  }
+
+  //set - stores the key and value into the hash table. Index is decided based on the hash value
+  set(key, value) {
+    var hashIndex = this._hash(key);
+
+    if (this.keyMap[hashIndex] === undefined) {
+      this.keyMap[hashIndex] = new Array;
+    }
+    this.keyMap[hashIndex].push([key, value])
+  }
+
+  //get - looks up the values in the hash table at the specific index. If no keypairs are detected in the index, return undefined. If values are found, loop through those arrays, and check to see if the key matches that passed in the argument, if it does, return the value, else return undefined.
+  get(key) {
+    var hashIndex = this._hash(key);
+    var hashArr = this.keyMap[hashIndex];
+
+    if (hashArr === undefined) {
+      return undefined;
+    }
+
+    for (var i = 0; i < hashArr.length; i++) {
+      if (hashArr[i][0] === key) {
+        return hashArr[i][1];
+      }
+    }
+    return undefined;
+  }
+
+
+  //keys - Loops through the hash tree to see whether a bucket contains anything. If it does, then loop through that bucket and push all the keys into the keys array. Continue this throughout the hash table, then return the keys array.
+  keys() {
+    var keys = [];
+    for (var i = 0; i < this.keyMap.length; i++) {
+      if (this.keyMap[i]) {
+        for (var x = 0; x < this.keyMap[i].length; x++) {
+          if (keys.indexOf(value) === -1) {
+            keys.push(this.keyMap[i][x][0])
+          }
+        }
+      }
+    }
+    return keys
+  }
+
+//values - does the same job as keys, accept it returns all the unique values in the hash table
+  values() {
+    var values = [];
+
+    for (var i = 0; i < this.keyMap.length; i++) {
+      if (this.keyMap[i]) {
+        for (var x = 0; x < this.keyMap[i].length; x++) {
+          var value = this.keyMap[i][x][1]
+          if (values.indexOf(value) === -1) {
+            values.push(value)
+          }
+        }
+      }
+    }
+    return values
+  }
+}
+
+var ht = new HashTable();
