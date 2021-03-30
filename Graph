@@ -1,0 +1,149 @@
+/*
+
+//A class to demonstrate how an undirected graph data structure works.
+
+
+
+ */
+
+
+class Graph {
+  constructor() {
+    this.adjacencyList = {};
+  }
+
+  //addVertex - If the object doesn't exist in the adjacencyList object, then create a new objected with the key of name
+  addVertex(name) {
+    if (!this.adjacencyList[name])
+      this.adjacencyList[name] = [];
+  }
+
+//addEdge - We create an edge between two verticies so that we know that they're linked together.
+  addEdge(vertex1, vertex2) {
+    if (!this.adjacencyList[vertex1]) { this.addVertex(vertex1) }
+    if (!this.adjacencyList[vertex2]) { this.addVertex(vertex2) }
+    this.adjacencyList[vertex1].push(vertex2)
+    this.adjacencyList[vertex2].push(vertex1)
+  }
+
+//removeEdge - We remove an edge from a vertex, and then remove the edges from the opposing vertex.
+  removeEdge(vertex1, vertex2) {
+
+    var firstVertex = this.adjacencyList[vertex1];
+    var secondVertex = this.adjacencyList[vertex2];
+
+    if (firstVertex) {
+      if (firstVertex.indexOf(vertex2) !== -1) {
+        var index = this.adjacencyList[vertex1].indexOf(vertex2);
+        this.adjacencyList[vertex1].splice(firstVertex[index], 1)
+      }
+    }
+    if (secondVertex) {
+      if (secondVertex.indexOf(vertex1) !== -1) {
+        var index = this.adjacencyList[vertex2].indexOf(vertex2);
+        this.adjacencyList[vertex2].splice(secondVertex[index], 1)
+      }
+    }
+  }
+
+
+//removingVertex - we remove a vertex from the Graph, and then loop through the Graph to make sure we remove any edges which refer back to the removed vertex.
+  removingVertex(vertex) {
+    for (var vertexItem in this.adjacencyList) {
+      this.removeEdge(vertex, vertexItem)
+    }
+    delete this.adjacencyList[vertex];
+  }
+
+//depthFirstSearch - Iterates through all the children from a starting node until the graph has been fully searched. Using recursion.
+  depthFirstSearch(node) {
+    const result = [];
+    const visited = {};
+    const adjList = this.adjacencyList;
+
+    function dfsHelper(node) {
+      if (!adjList[node]) { return null }
+
+      visited[node] = true
+      result.push(node);
+      for (var item of adjList[node]) {
+        if (result.indexOf(item) === -1) {
+          dfsHelper(item)
+        }
+      }
+    }
+    dfsHelper(node)
+    return result;
+  }
+
+//depthFirstIterative - Iterates through all the children from a starting node until the graph has been fully searched.
+  depthFirstIterative(start) {
+    const stack = [start];
+    const result = [];
+    const visited = {};
+    let currentVertex;
+
+    visited[start] = true;
+    while (stack.length) {
+      currentVertex = stack.pop();
+      result.push(currentVertex);
+
+      this.adjacencyList[currentVertex].forEach(neighbor => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          stack.push(neighbor)
+        }
+      });
+    }
+    return result;
+  }
+
+//depthFirstIterative - Start at a given Vertex and explore all neighbours on that vertex i.e. we check B and C first before we navigate down the graph. Unlike Depth First, which will iterate down verticies and edges until the graph has been fully searched. 
+ //       A
+//      /  \
+//     B    C
+  breadthFirstSearch(start)  {
+    const queue = [start];
+    const result = [];
+    const visited = {};
+    let currentVertex;
+    visited[start] = true;
+
+    while (queue.length) {
+      currentVertex = queue.shift();
+      result.push(currentVertex);
+
+
+      this.adjacencyList[currentVertex].forEach(neighbor => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          queue.push(neighbor);
+        }
+      });
+    }
+    return result;
+  }
+
+}
+
+
+
+
+var g = new Graph();
+g.addVertex("A")
+g.addVertex("B")
+g.addVertex("C")
+g.addVertex("D")
+g.addVertex("E")
+g.addVertex("F")
+
+g.addEdge("A", "B")
+g.addEdge("A", "C")
+g.addEdge("B", "D")
+g.addEdge("C", "E")
+g.addEdge("D", "E")
+g.addEdge("D", "F")
+g.addEdge("E", "F")
+
+console.log(g.breadthFirstSearch("D"))
+
