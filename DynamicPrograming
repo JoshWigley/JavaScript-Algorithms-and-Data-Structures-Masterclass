@@ -1,0 +1,44 @@
+/*
+
+A set of functions which demonstrate dynamic programming, and a couple of concepts on how dynamic programming works.
+
+ */
+
+//Unoptimized solution O(2^n)
+//Problem with this solution is that it's repeating logic that has already been processed at a previous time. For example, if we have fib(7). We're calculating fib(4) 3 times, fib(3) 5 times etc. This means the growth is exponential when we even slightly increase the value of n.
+
+function fib(n)
+{
+  if(n <= 2) return 1;
+  return fib(n-1) + fib(n-2);
+}
+
+//Optimized solution O(n)
+
+//Using "memoization" we store the results of each function call to try speed up the function. What this is doing, is saving the results, to an array, and rather than re-doing the computation, we check the array to see if we've done that calculation before hand, and if so, just pull that value from the array.
+// O(n)
+
+function fibMemoization(n, memo=[]) {
+  if(memo[n] !== undefined) return memo[n];
+  if (n <= 2) return 1;
+  var res = fib(n - 1, memo) + fib(n - 2, memo);
+  memo[n] = res;
+  console.log(memo)
+  return res;
+}
+
+//Tabulation - Similar to memoization, in that we're storing the result of each computation in an array, however, this differs by working from the bottom up, and usually done using iteration. Depending on the implementation, it usually provides better space complextion. 
+// O(n)
+
+function fibTabulation(n)
+{
+  if(n <= 2) return 1;
+  var fibNums = [0,1,1];
+  for(var i = 3; i <= n; i++)
+  {
+    fibNums[i] = fibNums[i-1] + fibNums[i-2];
+  }
+  return fibNums[n]
+}
+var hello = fibTabulation(10000)
+ console.log(hello)
